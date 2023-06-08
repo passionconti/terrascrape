@@ -1,0 +1,23 @@
+# debug mode
+debug = true
+subscribe_count = 1
+
+[server]
+host = "http://localhost"
+port = "4242"
+host_port = "4242"
+host_ip = "127.0.0.1"
+endpoint = "${server.host}:${server.port}"
+
+[server.database]
+drivername = "postgresql"
+host = "localhost"
+port = "5433"
+username = "terrascrape"
+password = "password"
+database = "terrascrape"
+volume_path = "${home_dir}/pg_data"
+
+[directory]
+tasks = "${home_dir}/tasks"
+builders = "${home_dir}/builders"

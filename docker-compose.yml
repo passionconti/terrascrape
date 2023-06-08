@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:12
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+    expose:
+      - "5434"
+    environment:
+      - POSTGRES_DB=terrascrape
+      - POSTGRES_USER=terrascrape
+      - POSTGRES_PASSWORD=password
+
+  terrascrape:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./terrascrape:/usr/local/terrascrape/terrascrape
+    expose:
+      - "5000"
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    links:
+      - db
+
+  test:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: test
+    volumes:
+      - ./tests:/usr/local/terrascrape/tests
+    depends_on:
+      - db
+    links:
+      - db
